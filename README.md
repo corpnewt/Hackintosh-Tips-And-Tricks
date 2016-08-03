@@ -2,6 +2,8 @@
 
 I'm going to try and make this readable - and hopefully add/update/change info as I get it, but no promises :)
 
+Click the "^" links to return to the Index.
+
 ##Index
 
 * [OSX Boot Issues](#osx-boot-issues)
@@ -19,7 +21,7 @@ I'm going to try and make this readable - and hopefully add/update/change info a
 
 -
 
-##OSX Boot Issues
+##OSX Boot Issues [^](#index)
 
 ###Missing Bluetooth Controller Transport
 
@@ -52,7 +54,7 @@ This seems like a Bluetooth error - but it's actually just the last line before 
  * Set *ig-platform-id* to *0x19120000*
  * Set primary display output to IGPU in BIOS
 
-###Enable Legacy Matching
+###Enable Legacy Matching [^](#index)
 
 This is something I've seen on *some* Skylake builds.  It's related to USB ownership.
 
@@ -66,7 +68,7 @@ To fix it - enable *FixOwnership* in config.plist (you may also need to enable *
             <false/>
         </dict>
         
-###Prohibited Sign
+###Prohibited Sign [^](#index)
 
 Shows up usually when booting the USB drive - the text gets garbled, a cirlce with a slash through it shows up, and the line *Still waiting for root device...* can be seen at the end.
 
@@ -93,19 +95,19 @@ You may need to inject all your USB ports via RehabMan's [USBInjectAll.kext](htt
                 </data>
             </dict>
 
-###OsxAptioFix Errors
+###OsxAptioFix Errors [^](#index)
 
 Memory mapping errors are tricky - if you're on an X99 system, you may be out of luck, although I *do* believe there are some custom *OsxAptioFix* drivers out there - reports on their success are hit and miss.
 
 For everyone else - this usually means that you need to swap *OsxAptioFixDrv-64.efi* for *OsxAptioFix****2****Drv-64.efi* in your EFI partition at */EFI/CLOVER/drivers64UEFI/* (**do not** have both fixes in that folder - that's like Russian Roulette with memory mapping).
 
-###Row Of Plus Signs
+###Row Of Plus Signs [^](#index)
 
 Usually attributed to the *VBoxHfs-64.efi* file in your EFI partition at */EFI/CLOVER/drivers64UEFI/*.  Replace that file with [*HFSPlus.efi*](https://github.com/JrCs/CloverGrowerPro/raw/master/Files/HFSPlus/X64/HFSPlus.efi) (it does not have to be renamed) and you should have some better success.
 
 -
 
-##Kernel Panics
+##Kernel Panics [^](#index)
 
 This section will go over some of the common kernel panics and how to avoid them.
 
@@ -121,7 +123,7 @@ For Ivy Bridge and newer CPUs, you can use Pike R. Alpha's [ssdtPRGen.sh](https:
 
 For Sandy Bridge and older, enable Generate CStates and PStates in Clover.
 
-###BluetoothHostControllerUARTTransport
+###BluetoothHostControllerUARTTransport [^](#index)
 
 This KP is seen on Skylake boards - and is related to the serial port.  Disable the serial port in BIOS (Peripherals -> Super IO -> Serial Port; or similar) and you should be able to boot.
 
@@ -148,7 +150,7 @@ If you have an Asus Z170-A board, you may also need the following in your config
 
 -
 
-##Tools
+##Tools [^](#index)
 
 ###Mounting the EFI Partition
 
@@ -164,7 +166,7 @@ Then type the following in the Terminal to mount it:
 
 Replacing *D* and *P* with the respective drive and partition numbers.
 
-###Repairing Permissions and Rebuilding Kext Cache
+###Repairing Permissions and Rebuilding Kext Cache [^](#index)
 
 These are good maintenance tools - they ensure permissions are correct on the boot drive, and that the kext cache is not populated with old, or unused kexts.  They are all entered into the Terminal.
 
