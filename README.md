@@ -2,7 +2,7 @@
 
 I'm going to try and make this readable - and hopefully add/update/change info as I get it, but no promises :)
 
-Click the "^" links to return to the Index.
+Click the "\[Return\]" links to return to the Index.
 
 ##Index
 
@@ -197,3 +197,5 @@ For rebuilding kext cache:
     sudo kextcache -update-volume /
 
 Just ***make sure*** that you have the correct kexts in place - I've seen people mess up their builds because they swapped out correct kexts for incorrect ones, and were just coasting on the previous kext cache. When they rebuilt the kext cache, it pulled their feet out from under them and they had issues.
+
+[\[Return\]](#index)
