@@ -124,7 +124,6 @@ This KP is seen on Skylake boards - and is related to the serial port.  Disable 
 
 If you have an Asus Z170-A board, you may also need the following in your config.plist -> ACPI -> DSDT -> Patches:
 
-<dict>
     <key>ACPI</key>
     <dict>
         <key>DSDT</key>
