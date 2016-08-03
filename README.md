@@ -4,15 +4,18 @@ I'm going to try and make this readable - and hopefully add/update/change info a
 
 ##Index
 
-1. [OSX Boot Issues](#osx-boot-issues)
+* [OSX Boot Issues](#osx-boot-issues)
  * [Missing Bluetooth Controller Transport](#missing-bluetooth-controller-transport)
  * [Enable Legacy Matching](#enable-legacy-matching)
  * [Prohibited Sign](#prohibited-sign)
  * [OsxAptioFix Errors](#osxaptiofix-errors)
  * [Row Of Plus Signs](#row-of-plus-signs)
-2. [Kernel Panics](#kernel-panics)
+* [Kernel Panics](#kernel-panics)
  * [AppleIntelCPUPowerManagement](#appleintelcpupowermanagement)
  * [BluetoothHostControllerUARTTransport](#bluetoothhostcontrolleruarttransport)
+* [Tools](#tools)
+ * [Mounting the EFI Partition](#mounting-the-efi-partition)
+ * [Repairing Permissions and Rebuilding Kext Cache](#repairing-permissions-and-rebuilding-kext-cache)
 
 -
 
@@ -143,3 +146,36 @@ If you have an Asus Z170-A board, you may also need the following in your config
                     </data>
                 </dict>
 
+-
+
+##Tools
+
+###Mounting the EFI Partition
+
+To mount an EFI partition (in case you reboot, or eject one when you need it again), do the following in the Terminal:
+
+    diskutil list
+
+Take note of the drive number that you want, and also the partition number of the EFI partition.  It will look like *diskDsP* where *D* is the drive number and *P* is the partition number.
+
+Then type the following in the Terminal to mount it:
+
+    diskutil mount diskDsP
+
+Replacing *D* and *P* with the respective drive and partition numbers.
+
+###Repairing Permissions and Rebuilding Kext Cache
+
+These are good maintenance tools - they ensure permissions are correct on the boot drive, and that the kext cache is not populated with old, or unused kexts.  They are all entered into the Terminal.
+
+For repairing permissions:
+
+    sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume /
+
+For rebuilding kext cache:
+
+    sudo rm -r /System/Library/Caches/com.apple.kext.caches
+    sudo touch /System/Library/Extensions
+    sudo kextcache -update-volume /
+
+Just ***make sure*** that you have the correct kexts in place - I've seen people mess up their builds because they swapped out correct kexts for incorrect ones, and were just coasting on the previous kext cache. When they rebuilt the kext cache, it pulled their feet out from under them and they had issues.
