@@ -15,6 +15,12 @@ Click the "\[Return\]" links to return to the Index.
 * [Kernel Panics](#kernel-panics)
  * [AppleIntelCPUPowerManagement](#appleintelcpupowermanagement)
  * [BluetoothHostControllerUARTTransport](#bluetoothhostcontrolleruarttransport)
+* [Audio](#audio)
+ * [Skylake](#skylake)
+ * [AppleALC](#applealc)
+ * [HDMI Audio](#hdmi-audio)
+* [Hardware Exceptions](#hardware-specific-tips)
+ * [Asus Z170-A](#asus-z170-a)
 * [Tools](#tools)
  * [Mounting the EFI Partition](#mounting-the-efi-partition)
  * [Repairing Permissions and Rebuilding Kext Cache](#repairing-permissions-and-rebuilding-kext-cache)
@@ -140,6 +146,85 @@ For Sandy Bridge and older, enable Generate CStates and PStates in Clover.
 This KP is seen on Skylake boards - and is related to the serial port.  Disable the serial port in BIOS (Peripherals -> Super IO -> Serial Port; or similar) and you should be able to boot.
 
 If you have an Asus Z170-A board, you may also need the following in your config.plist -> ACPI -> DSDT -> Patches:
+
+    <key>ACPI</key>
+    <dict>
+        <key>DSDT</key>
+        <dict>
+            <key>Patches</key>
+            <array>
+                <dict>
+                    <key>Comment</key>
+                    <string>Z170-A UART Patch</string>
+                    <key>Find</key>
+                    <data>
+                    QdAFAQ==
+                    </data>
+                    <key>Replace</key>
+                    <data>
+                    AQIDBA==
+                    </data>
+                </dict>
+
+[\[Return\]](#index)
+
+-
+
+##Audio
+
+###Skylake
+
+To allow many Skylake boards (if not all of them) to work with some of the more elegant audio solutions (see [AppleALC](#applealc)), you need to rename *HDAS* to *HDEF* in DSDT via the following edit to your config.plist -> ACPI -> DSDT -> Patches:
+
+                <dict>
+                    <key>Comment</key>
+                    <string>Rename HDAS to HDEF for Realtek Audio</string>
+                    <key>Find</key>
+                    <data>
+                    SERBUw==
+                    </data>
+                    <key>Replace</key>
+                    <data>
+                    SERFRg==
+                    </data>
+                </dict>
+                
+[\[Return\]](#index)
+
+###AppleALC
+
+[AppleALC](https://github.com/vit9696/AppleALC) is a kernel extension developed by [Vit9696](https://github.com/vit9696) that allows for dynamic patching of *AppleHDA.kext* in kext cache (non-destructive, works with SIP) and supports a [large range of codecs](https://github.com/vit9696/AppleALC/wiki/Supported-codecs).
+
+It gets installed to your EFI partition (if using Clover) at */Volumes/EFI/EFI/CLOVER/kexts/Other/* (or the *10.xx* folders - but I prefer *Other*).  I did an audio-related writeup about it [here](https://www.reddit.com/r/hackintosh/comments/4sil5p/audio_mechanic_old_patchfix_removal_applealc/).  /u/TheRacerMaster wrote a tutorial for installation [here](https://www.reddit.com/r/hackintosh/comments/4e23w6/guide_native_audio_with_clover_applealckext/).
+
+[\[Return\]](#index)
+
+###HDMI Audio
+
+Toleda is still the resident expert for HDMI audio - I don't have the capacity to figure out how he does it - but I'll link some of his repos here:
+
+From his [HDMI Audio AppleHDA \[Guides\]](https://github.com/toleda/audio_hdmi_guides)
+
+* [HD6000+/Desktop/BRIX/NUC](https://github.com/toleda/audio_hdmi_9series/tree/master/ssdt_hdmi-hd6000%2B)
+* [HD4600+/Desktop/BRIX/NUC](https://github.com/toleda/audio_hdmi_8series/tree/master/ssdt_hdmi-hd4600%2B)
+* [HD4000/Desktop/BRIX/NUC](https://github.com/toleda/audio_hdmi_hd4000/tree/master/ssdt_hdmi-hd4000)
+* [HD3000/Desktop](https://github.com/toleda/audio_hdmi_hd3000/tree/master/ssdt_hdmi-hd3000)
+* [AMD HDMI audio](https://github.com/toleda/audio_hdmi_amd-nvidia/tree/master/ssdt_hdmi-amd)
+* [Nvidia HDMI audio](https://github.com/toleda/audio_hdmi_amd-nvidia/tree/master/ssdt_hdmi-nvidia)
+* [ALC/HDEF audio](https://github.com/toleda/audio_ALCInjection/tree/master/ssdt_hdef)
+* [Intel 100 Series](https://github.com/toleda/audio_hdmi_100series) (HD 515, 530, and 540 at the time of this writing)
+
+His guides can be tough to figure out - but he knows his stuff.  Read through them carefully (IIRC, the AMD and NVIDIA guides require using [IORegistryExplorer](https://github.com/toleda/audio_ALCInjection/blob/master/IORegistryExplorer_v2.1.zip) to get the address of your card per [this guide](http://www.tonymacx86.com/threads/amd-nvidia-hdmi-audio-easy-guide.172023/)) and place the correct SSDT for your GPU in */Volumes/EFI/EFI/CLOVER/ACPI/patched/*.
+
+[\[Return\]](#index)
+
+-
+
+##Hardware Exceptions
+
+###Asus Z170-A
+
+For all Skylake boards, you'll want to make sure that you disable your serial port via BIOS - but this board *still* seems to have some serial port issues (referenced [here](#bluetoothhostcontrolleruarttransport) as well).  You'll want to make sure you have the following in your config.plist -> ACPI -> DSDT -> Patches:
 
     <key>ACPI</key>
     <dict>
