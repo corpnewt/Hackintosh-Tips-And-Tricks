@@ -21,6 +21,7 @@ Click the "\[Return\]" links to return to the Index.
  * [HDMI Audio](#hdmi-audio)
 * [Hardware Exceptions](#hardware-specific-tips)
  * [Asus Z170-A](#asus-z170-a)
+ * [GA-X79-UP4](#ga-x79-up4)
 * [Tools](#tools)
  * [Mounting the EFI Partition](#mounting-the-efi-partition)
  * [Repairing Permissions and Rebuilding Kext Cache](#repairing-permissions-and-rebuilding-kext-cache)
@@ -244,6 +245,22 @@ For all Skylake boards, you'll want to make sure that you disable your serial po
                     AQIDBA==
                     </data>
                 </dict>
+
+[\[Return\]](#index)
+
+###GA-X79-UP4
+
+This board worked fine for me from 10.9.3-10.10.x - but with the rewrite of the way OSX handles USB implemented in El Capitan, it had some trouble.  I would pretty consistently get a *IOUSBFamily.kext* kernel panic.  I was *finally* able to get it to boot into the installer by using the following SSDT patch:
+
+    DefinitionBlock ("iASLwAigOV.aml", "SSDT", 1, "APPLE", "Fix_USB2", 0x00001000)
+    {
+        Name (_SB.PCI0.EUSB._STA, Zero)
+        Name (_SB.PCI0.USBE._STA, Zero)
+    }
+    
+To make it work, save the above code into a plain text file (called *SSDT.dsl*) - then hen compile it on MaciASL to get the SSDT.aml.  After that - place it in your */Volumes/EFI/EFI/CLOVER/ACPI/patched/* folder.
+
+The second required step was to disable *all* USB3 ports in BIOS (there were 2 USB3.0 controller IIRC).  After doing this - I was able to boot.  I haven't gone through and actually installed the OS as I'm a bit pressed for spare hard drives - but I don't know if there's a way to enable USB3.0 on this board in 10.11+.
 
 [\[Return\]](#index)
 
