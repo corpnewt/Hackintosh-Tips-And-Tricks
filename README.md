@@ -19,6 +19,8 @@ Click the "\[Return\]" links to return to the Index.
  * [Skylake](#skylake)
  * [AppleALC](#applealc)
  * [HDMI Audio](#hdmi-audio)
+* [USB](#usb)
+ * [_OSI to XOSI](#_osi-to-xosi)
 * [Hardware Exceptions](#hardware-specific-tips)
  * [Asus Z170-A](#asus-z170-a)
  * [GA-X79-UP4](#ga-x79-up4)
@@ -216,6 +218,29 @@ From his [HDMI Audio AppleHDA \[Guides\]](https://github.com/toleda/audio_hdmi_g
 * [Intel 100 Series](https://github.com/toleda/audio_hdmi_100series) (HD 515, 530, and 540 at the time of this writing)
 
 His guides can be tough to figure out - but he knows his stuff.  Read through them carefully (IIRC, the AMD and NVIDIA guides require using [IORegistryExplorer](https://github.com/toleda/audio_ALCInjection/blob/master/IORegistryExplorer_v2.1.zip) to get the address of your card per [this guide](http://www.tonymacx86.com/threads/amd-nvidia-hdmi-audio-easy-guide.172023/)) and place the correct SSDT for your GPU in */Volumes/EFI/EFI/CLOVER/ACPI/patched/*.
+
+[\[Return\]](#index)
+
+-
+
+##USB
+
+###_OSI to XOSI
+
+The following was quoted from [this post](http://www.tonymacx86.com/threads/osx-el-capitan-tips-for-fixing-intel-usb.174002/):
+
+>If you notice that whenever you plug a USB3 device into a USB3 port and it shows up either in IOReg or About This Mac being loaded under EHCI (USB2) or "USB2.0 Hub", then this patch is for you. For a full explanation on how it works, refer to RehabMan's guide: "[_OSI and Windows Version Checks](http://www.tonymacx86.com/threads/guide-10-11-usb-changes-and-solutions.173616/)" 
+
+To apply that patch, add the following to your config.plist -> ACPI -> DSDT -> Patches:
+
+                <dict>
+                    <key>Comment</key>
+                    <string>change _OSI to XOSI</string>
+                    <key>Find</key>
+                    <data>X09TSQ==</data>
+                    <key>Replace</key>
+                    <data>WE9TSQ==</data>
+                </dict>
 
 [\[Return\]](#index)
 
