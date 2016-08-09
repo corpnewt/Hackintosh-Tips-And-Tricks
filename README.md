@@ -183,7 +183,7 @@ For Sandy Bridge and older, **do not** use Pike's script, and instead enable Gen
 
 ###BluetoothHostControllerUARTTransport
 
-This KP is seen on Skylake boards - and is related to the serial port.  Disable the serial port in BIOS (Peripherals -> Super IO -> Serial Port; or similar) and you should be able to boot.
+This KP is seen on Skylake boards - and is related to the serial port.  Disable the serial port in BIOS (Peripherals -> Super IO -> Serial Port; or similar) and you should be able to boot.  **Note:** some boards have a serial port header (not a port on the back), and in those cases - you will still want to disable it.
 
 If you have an Asus Z170-A board, you may also need the following in your config.plist -> ACPI -> DSDT -> Patches:
 
