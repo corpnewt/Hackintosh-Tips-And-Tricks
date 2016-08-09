@@ -114,7 +114,7 @@ You may need to inject all your USB ports via RehabMan's [USBInjectAll.kext](htt
 
 Memory mapping errors are tricky - if you're on an X99 system, you may be out of luck, although I *do* believe there are some custom *OsxAptioFix* drivers out there - reports on their success are hit and miss.
 
-For everyone else - this usually means that you need to swap *OsxAptioFixDrv-64.efi* for *OsxAptioFix****2****Drv-64.efi* in your EFI partition at */EFI/CLOVER/drivers64UEFI/* (**do not** have both fixes in that folder - that's like Russian Roulette with memory mapping).
+For everyone else - this usually means that you need to swap *OsxAptioFixDrv-64.efi* for *OsxAptioFix****2****Drv-64.efi* (or vise versa) in your EFI partition at */EFI/CLOVER/drivers64UEFI/* (**do not** have both fixes in that folder - that's like Russian Roulette with memory mapping).
 
 [\[Return\]](#index)
 
