@@ -50,7 +50,7 @@ This seems like a Bluetooth error - but it's actually just the last line before 
 * **Fermi**
  * Ensure you have NVIDIA Injection **disabled** in Clover
  * I believe most of these work OOB - but may suffer from stuttering
- * If your stutters, try using `nv_disable=1`, installing Web Drivers, then using `nvda_drv=1`
+ * If yours stutters, try using `nv_disable=1`, installing Web Drivers, then using `nvda_drv=1`
  
 ####Intel
  
