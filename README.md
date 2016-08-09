@@ -138,9 +138,46 @@ To fix it temporarily, you can use *NullCPUPowerManagement.kext*.
 
 You can alternatively enabled *AsusAICPUPM* in Clover.
 
-For Ivy Bridge and newer CPUs, you can use Pike R. Alpha's [ssdtPRGen.sh](https://github.com/Piker-Alpha/ssdtPRGen.sh) script to generate an SSDT for your CPU.
+For Ivy Bridge and newer CPUs, you can use Pike R. Alpha's [ssdtPRGen.sh](https://github.com/Piker-Alpha/ssdtPRGen.sh) script to generate an SSDT for your CPU.  The resulting SSDT is named "ssdt.aml" and located at *~/Library/ssdtPRGEN/* - rename this file to "SSDT.aml" and place it in */Volumes/EFI/EFI/CLOVER/ACPI/patched/*.  You may also ened to drop the *CpuPm* and *Cpu0Ist* SSDT tables in your config.plist -> ACPI -> DropTables:
 
-For Sandy Bridge and older, enable Generate CStates and PStates in Clover.
+        <key>DropTables</key>
+        <array>
+            <dict>
+                <key>Signature</key>
+                <string>SSDT</string>
+                <key>TableId</key>
+                <string>CpuPm</string>
+            </dict>
+            <dict>
+                <key>Signature</key>
+                <string>SSDT</string>
+                <key>TableId</key>
+                <string>Cpu0Ist</string>
+            </dict>
+        </array>
+
+Also make sure to enable the following in your config.plist -> KernelAndKextPatches:
+
+    <key>KernelAndKextPatches</key>
+    <dict>
+        <key>AppleRTC</key>
+        <true/>
+        <key>AsusAICPUPM</key>
+        <true/>
+        <key>KernelPm</key>
+        <true/>
+
+For Ivy Bridge CPUs (not necessary on Haswell, but doesn't hurt either way), you'll also need to add `-xcpm` to your boot arguments to force the use of the new power management method.
+
+For Sandy Bridge and older, **do not** use Pike's script, and instead enable Generate CStates and PStates in config.plist -> ACPI -> SSDT:
+
+        <key>SSDT</key>
+        <dict>
+            <key>DropOem</key>
+            <false/>
+            <key>Generate</key>
+            <true/>
+        </dict>
 
 [\[Return\]](#index)
 
