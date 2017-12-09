@@ -4,7 +4,7 @@ I'm going to try and make this readable - and hopefully add/update/change info a
 
 Click the "\[Return\]" links to return to the Index.
 
-##Index
+## Index
 
 * [OSX Boot Issues](#osx-boot-issues)
  * [Missing Bluetooth Controller Transport](#missing-bluetooth-controller-transport)
@@ -30,13 +30,13 @@ Click the "\[Return\]" links to return to the Index.
 
 -
 
-##OSX Boot Issues
+## OSX Boot Issues
 
-###Missing Bluetooth Controller Transport
+### Missing Bluetooth Controller Transport
 
 This seems like a Bluetooth error - but it's actually just the last line before the GPU initialization starts.  It usually means the GPU isn't initializing.
 
-####NVIDIA
+#### NVIDIA
 
 * **Maxwell - 900 Series (also includes 745, 750, 750ti)**
  * Ensure you have NVIDIA Injection **disabled** in Clover
@@ -52,7 +52,7 @@ This seems like a Bluetooth error - but it's actually just the last line before 
  * I believe most of these work OOB - but may suffer from stuttering
  * If yours stutters, try using `nv_disable=1`, installing Web Drivers, then using `nvda_drv=1`
  
-####Intel
+#### Intel
  
 * **HD 4600 - Haswell**
  * Ensure Intel Injection is **enabled** in Clover
@@ -65,7 +65,7 @@ This seems like a Bluetooth error - but it's actually just the last line before 
 
 [\[Return\]](#index)
 
-###Enable Legacy Matching
+### Enable Legacy Matching
 
 This is something I've seen on *some* Skylake builds.  It's related to USB ownership.
 
@@ -81,7 +81,7 @@ To fix it - enable *FixOwnership* in config.plist (you may also need to enable *
         
 [\[Return\]](#index)
 
-###Prohibited Sign
+### Prohibited Sign
 
 Shows up usually when booting the USB drive - the text gets garbled, a cirlce with a slash through it shows up, and the line *Still waiting for root device...* can be seen at the end.
 
@@ -110,7 +110,7 @@ You may need to inject all your USB ports via RehabMan's [USBInjectAll.kext](htt
 
 [\[Return\]](#index)
 
-###OsxAptioFix Errors
+### OsxAptioFix Errors
 
 Memory mapping errors are tricky - if you're on an X99 system, you may be out of luck, although I *do* believe there are some custom *OsxAptioFix* drivers out there - reports on their success are hit and miss.
 
@@ -118,7 +118,7 @@ For everyone else - this usually means that you need to swap *OsxAptioFixDrv-64.
 
 [\[Return\]](#index)
 
-###Row Of Plus Signs
+### Row Of Plus Signs
 
 Usually attributed to the *VBoxHfs-64.efi* file in your EFI partition at */EFI/CLOVER/drivers64UEFI/*.  Replace that file with [*HFSPlus.efi*](https://github.com/JrCs/CloverGrowerPro/raw/master/Files/HFSPlus/X64/HFSPlus.efi) (it does not have to be renamed) and you should have some better success.
 
@@ -126,11 +126,11 @@ Usually attributed to the *VBoxHfs-64.efi* file in your EFI partition at */EFI/C
 
 -
 
-##Kernel Panics
+## Kernel Panics
 
 This section will go over some of the common kernel panics and how to avoid them.
 
-###AppleIntelCPUPowerManagement
+### AppleIntelCPUPowerManagement
 
 This KP is caused by either locked MSR attempted access or a CPU without supported C & P-States.
 
@@ -181,7 +181,7 @@ For Sandy Bridge and older, **do not** use Pike's script, and instead enable Gen
 
 [\[Return\]](#index)
 
-###BluetoothHostControllerUARTTransport
+### BluetoothHostControllerUARTTransport
 
 This KP is seen on Skylake boards - and is related to the serial port.  Disable the serial port in BIOS (Peripherals -> Super IO -> Serial Port; or similar) and you should be able to boot.  **Note:** some boards have a serial port header (not a port on the back), and in those cases - you will still want to disable it.
 
@@ -210,9 +210,9 @@ If you have an Asus Z170-A board, you may also need the following in your config
 
 -
 
-##Audio
+## Audio
 
-###Skylake
+### Skylake
 
 To allow many Skylake boards (if not all of them) to work with some of the more elegant audio solutions (see [AppleALC](#applealc)), you need to rename *HDAS* to *HDEF* in DSDT via the following edit to your config.plist -> ACPI -> DSDT -> Patches:
 
@@ -231,7 +231,7 @@ To allow many Skylake boards (if not all of them) to work with some of the more 
                 
 [\[Return\]](#index)
 
-###AppleALC
+### AppleALC
 
 [AppleALC](https://github.com/vit9696/AppleALC) is a kernel extension developed by [Vit9696](https://github.com/vit9696) that allows for dynamic patching of *AppleHDA.kext* in kext cache (non-destructive, works with SIP) and supports a [large range of codecs](https://github.com/vit9696/AppleALC/wiki/Supported-codecs).
 
@@ -239,7 +239,7 @@ It gets installed to your EFI partition (if using Clover) at */Volumes/EFI/EFI/C
 
 [\[Return\]](#index)
 
-###HDMI Audio
+### HDMI Audio
 
 Toleda is still the resident expert for HDMI audio - I don't have the capacity to figure out how he does it - but I'll link some of his repos here:
 
@@ -260,9 +260,9 @@ His guides can be tough to figure out - but he knows his stuff.  Read through th
 
 -
 
-##USB
+# #USB
 
-###_OSI to XOSI
+### _OSI to XOSI
 
 The following was quoted from [this post](http://www.tonymacx86.com/threads/osx-el-capitan-tips-for-fixing-intel-usb.174002/):
 
@@ -283,9 +283,9 @@ To apply that patch, add the following to your config.plist -> ACPI -> DSDT -> P
 
 -
 
-##Hardware Exceptions
+## Hardware Exceptions
 
-###Asus Z170-A
+### Asus Z170-A
 
 For all Skylake boards, you'll want to make sure that you disable your serial port via BIOS - but this board *still* seems to have some serial port issues (referenced [here](#bluetoothhostcontrolleruarttransport) as well).  You'll want to make sure you have the following in your config.plist -> ACPI -> DSDT -> Patches:
 
@@ -310,7 +310,7 @@ For all Skylake boards, you'll want to make sure that you disable your serial po
 
 [\[Return\]](#index)
 
-###GA-X79-UP4
+### GA-X79-UP4
 
 This board worked fine for me from 10.9.3-10.10.x - but with the rewrite of the way OSX handles USB implemented in El Capitan, it had some trouble.  I would pretty consistently get a *IOUSBFamily.kext* kernel panic.  I was *finally* able to get it to boot into the installer by using the following SSDT patch:
 
@@ -328,9 +328,9 @@ The second required step was to disable *all* USB3 ports in BIOS (there were 2 U
 
 -
 
-##Tools
+## Tools
 
-###Mounting the EFI Partition
+### Mounting the EFI Partition
 
 To mount an EFI partition (in case you reboot, or eject one when you need it again), do the following in the Terminal:
 
@@ -346,7 +346,7 @@ Replacing *D* and *P* with the respective drive and partition numbers.
 
 [\[Return\]](#index)
 
-###Repairing Permissions and Rebuilding Kext Cache
+### Repairing Permissions and Rebuilding Kext Cache
 
 These are good maintenance tools - they ensure permissions are correct on the boot drive, and that the kext cache is not populated with old, or unused kexts.  They are all entered into the Terminal.
 
